@@ -1,0 +1,260 @@
+@import "tailwindcss";
+
+/* ---------- رنگ‌های هر تم ---------- */
+:root,
+[data-theme="dark"] {
+  --porto-bg: #0b1115;
+  --porto-fg: #ffffff;
+  --porto-text: #94a3b8;
+  --porto-card: #131b20;
+  --porto-teal: #2dd4bf;
+  --grid-line: rgba(255, 255, 255, 0.03);
+  --glow: rgba(245, 166, 35, 0.14);
+  --avatar-ring: #12302e;
+  --avatar-glow: 0 0 0 1px rgba(245, 166, 35, 0.4), 0 0 90px 10px rgba(245, 166, 35, 0.28);
+  --avatar-back: #0b1f1e;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --porto-bg: #f6f2ea;
+  --porto-fg: #0f1a1f;
+  --porto-text: #56656c;
+  --porto-card: #ffffff;
+  --porto-teal: #0d9488;
+  --grid-line: rgba(15, 26, 31, 0.05);
+  --glow: rgba(245, 166, 35, 0.22);
+  --avatar-ring: #ffffff;
+  --avatar-glow: 0 0 0 1px rgba(224, 146, 22, 0.45), 0 20px 70px -10px rgba(224, 146, 22, 0.45);
+  --avatar-back: #fff7e6;
+  color-scheme: light;
+}
+
+:root { --glow-x: 75%; --font-body: "Manrope", "Vazirmatn", system-ui, sans-serif; }
+[dir="rtl"] { --glow-x: 25%; --font-body: "Vazirmatn", "Manrope", system-ui, sans-serif; }
+
+/* inline یعنی کلاس‌های Tailwind (مثل bg-porto-bg) همیشه مقدار فعلی متغیر را می‌خوانند */
+@theme inline {
+  --color-porto-bg: var(--porto-bg);
+  --color-porto-fg: var(--porto-fg);
+  --color-porto-text: var(--porto-text);
+  --color-porto-card: var(--porto-card);
+  --color-porto-teal: var(--porto-teal);
+}
+
+@theme {
+  --color-porto-gold: #f5a623;
+  --color-porto-gold-hover: #e09216;
+}
+
+body {
+  background-color: var(--porto-bg);
+  color: var(--porto-fg);
+  overflow-x: hidden;
+  font-family: var(--font-body);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* در فارسی فاصله‌ی حروف باعث جدا شدن حروف چسبیده می‌شود */
+[dir="rtl"] * { letter-spacing: 0 !important; }
+
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+.hero-glow {
+  background: radial-gradient(ellipse 45% 55% at var(--glow-x) 50%, var(--glow), transparent 70%);
+}
+
+.avatar-face {
+  box-shadow: var(--avatar-glow);
+  border-color: var(--avatar-ring);
+}
+
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+.orbit-spin { animation: orbit-spin 50s linear infinite; }
+.orbit-spin-rev { animation: orbit-spin 50s linear infinite reverse; }
+.orbit-spin:hover,
+.orbit-spin:hover .orbit-spin-rev { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-spin, .orbit-spin-rev { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+
+/* ============ Header Effects ============ */
+
+.header-glass {
+  background: color-mix(in srgb, var(--porto-bg) 78%, transparent);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border-bottom: 1px solid color-mix(in srgb, var(--porto-fg) 7%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--porto-fg) 5%, transparent) inset,
+    0 12px 32px -14px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .header-glass {
+  background: color-mix(in srgb, var(--porto-bg) 82%, transparent);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 12px 32px -14px rgba(15, 23, 42, 0.12);
+}
+
+/* Spotlight */
+.header-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(245, 166, 35, 0.13),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  mix-blend-mode: screen;
+}
+
+[data-theme="light"] .header-spotlight {
+  mix-blend-mode: multiply;
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(245, 166, 35, 0.2),
+    transparent 70%
+  );
+}
+
+header:hover .header-spotlight {
+  opacity: 1;
+}
+
+/* Logo */
+.logo {
+  background: linear-gradient(135deg, #ffc257 0%, #f5a623 50%, #c97f10 100%);
+  box-shadow:
+    0 6px 20px -6px rgba(245, 166, 35, 0.75),
+    0 2px 0 rgba(255, 255, 255, 0.35) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.18) inset;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.logo:hover {
+  box-shadow:
+    0 10px 28px -6px rgba(245, 166, 35, 0.9),
+    0 2px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.2) inset;
+}
+
+.logo-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(245, 166, 35, 0.95) 50deg,
+    transparent 100deg,
+    transparent 180deg,
+    rgba(45, 212, 191, 0.85) 230deg,
+    transparent 280deg
+  );
+  animation: logo-spin 7s linear infinite;
+  mask: radial-gradient(circle, transparent 62%, #000 63%);
+  -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+@keyframes logo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Nav Pill */
+.nav-pill {
+  background: color-mix(in srgb, var(--porto-fg) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--porto-fg) 8%, transparent);
+  border-radius: 9999px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 6px 18px -10px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .nav-pill {
+  background: color-mix(in srgb, var(--porto-fg) 4%, transparent);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 6px 18px -10px rgba(15, 23, 42, 0.1);
+}
+
+/* CTA Button */
+.cta-btn {
+  position: relative;
+  isolation: isolate;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.12) inset,
+    0 8px 22px -8px rgba(245, 166, 35, 0.65);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.cta-btn:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.18) inset,
+    0 14px 32px -8px rgba(245, 166, 35, 0.85);
+}
+
+.cta-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cta-sheen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -70%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 80%
+  );
+  transform: skewX(-18deg);
+  transition: left 0.55s ease;
+}
+
+.cta-btn:hover .cta-sheen::before {
+  left: 130%;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  background:
+    radial-gradient(130% 90% at 50% 0%, rgba(245, 166, 35, 0.07), transparent 55%),
+    color-mix(in srgb, var(--porto-bg) 94%, transparent);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-ring {
+    animation: none !important;
+  }
+  .cta-btn,
+  .cta-sheen::before {
+    transition: none !important;
+  }
+}
