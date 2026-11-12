@@ -1,5 +1,6 @@
 import Header from "../Components/Header.jsx";
 import HeroSection from "../Components/HeroSection.jsx";
+import ChatWidget from "../ChatBot/ChatWidget.jsx"; // ۱. ایمپورت چت‌بات
 
 function Home() {
   return (
@@ -8,6 +9,9 @@ function Home() {
       <main>
         <HeroSection />
       </main>
+      
+      {/* ۲. اضافه کردن چت‌بات در پایین‌ترین قسمت */}
+      <ChatWidget />
     </div>
   );
 }
